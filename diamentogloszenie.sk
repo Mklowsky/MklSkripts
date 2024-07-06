@@ -1,0 +1,7 @@
+on break of diamond ore or deepslate diamond ore:
+    if {diamondCooldown::%player%} is not set:
+        broadcast "&e%player% znalazł diamenty!"
+        set {diamondCooldown::%player%} to now
+    else if difference between now and {diamondCooldown::%player%} is greater than 15 seconds:
+        broadcast "&e%player% znalazł diamenty!"
+        set {diamondCooldown::%player%} to now
