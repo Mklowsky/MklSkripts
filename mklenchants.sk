@@ -1,0 +1,116 @@
+#MklEnchants - customowe enchanty stworzone przez Mkl na 4. edycję Braniewo SMP
+#Wersja Alpha 1.0
+#GitHub: https://github.com/Mklowsky/MklSkripts
+#Wymagane pluginy: EssentialsX
+
+#Sekcja Enchantów - zawiera wszystkie enchanty zapewniane przez skrypt
+#Aby aktywować enchant dodaj do itemlore nazwę zawartą poniżej
+
+#Pośpiech - daje szansę na nałożenie efektu "haste" przy kopaniu bloku
+on mine:
+	if lore of player's held item contains "&5Pośpiech I":
+		chance of 2%:
+			apply haste 1 to player for 5 seconds
+	if lore of player's held item contains "&5Pośpiech II":
+		chance of 3%:
+			apply haste 1 to player for 5 seconds
+	if lore of player's held item contains "&5Pośpiech III":
+		chance of 5%:
+			apply haste 1 to player for 5 seconds			
+
+#Krwiopijca - szansa na nałożenie efektu "regeneration" przy ataku
+on damage:
+    if attacker is a player:
+        if victim is a living entity:
+            if lore of attacker's held item contains "&5Krwiopijca I":
+                chance of 5%:
+                    apply regeneration 2 to attacker for 4 seconds
+            if lore of attacker's held item contains "&5Krwiopijca II":
+                chance of 7%:
+                    apply regeneration 2 to attacker for 4 seconds
+            if lore of attacker's held item contains "&5Krwiopijca III":
+                chance of 10%:
+                    apply regeneration 2 to attacker for 4 seconds
+
+#Biegacz - nakłada permanentny efekt "speed" o wartości 20% gdy gracz ma założone buty z poniższym enchantem
+every 1 second:
+    loop all players:
+        if lore of loop-player's boots contains "&5Biegacz":
+            if {biegacz::%loop-player%} is not set:
+                apply speed 1 to loop-player for 999 days
+                set {biegacz::%loop-player%} to true
+        else:
+            if {biegacz::%loop-player%} is set:
+                remove speed from loop-player
+                delete {biegacz::%loop-player%}
+
+#Sekcja komend - nakładanie enchantów na przedmioty
+
+command /pospiech [<text>]:
+    permission: mklenchants.pospiech
+    executable by: players
+    permission message: "&cNie masz uprawnień do użycia tej komendy!"
+    trigger:
+        if arg-1 is "I" or "II" or "III":
+            set {_lore} to "&5Pośpiech %arg-1%"
+            add {_lore} to lore of player's held item
+            send "&aPrzedmiot ma teraz enchant %{_lore}%" to player
+        else:
+            send "&cPoprawne użycie: /pospiech I/II/III"
+
+command /krwiopijca [<text>]:
+    permission: mklenchants.krwiopijca
+    executable by: players
+    permission message: "&cNie masz uprawnień do użycia tej komendy!"
+    trigger:
+        if arg-1 is "I" or "II" or "III":
+            set {_lore} to "&5Krwiopijca %arg-1%"
+            add {_lore} to lore of player's held item
+            send "&aPrzedmiot ma teraz enchant %{_lore}%" to player
+        else:
+            send "&cPoprawne użycie: /krwiopijca I/II/III"
+			
+command /biegacz [<text>]:
+    permission: mklenchants.biegacz
+    executable by: players
+    permission message: "&cNie masz uprawnień do użycia tej komendy!"
+    trigger:
+        if player's held item are boots:
+            set {_lore} to "&5Biegacz"
+            add {_lore} to lore of player's held item
+        else:
+            send "&cBiegacz działa wyłącznie na butach!"
+
+command /usunenchant [<text>]: #komenda tymczasowa bedzie zmieniona pozniej - Mkl
+    permission: mklenchants.usunenchant
+    executable by: players
+    permission message: "&cNie masz uprawnień do użycia tej komendy!"
+    trigger:
+        if arg-1 is "pospiechI":
+            set {_usuwanelore} to "&5Pośpiech I"
+            remove {_usuwanelore} from lore of player's held item
+            send "&aPrzedmiot nie ma już enchantu %{_usuwanelore}%" to player
+        if arg-1 is "pospiechII":
+            set {_usuwanelore} to "&5Pośpiech II"
+            remove {_usuwanelore} from lore of player's held item
+            send "&aPrzedmiot nie ma już enchantu %{_usuwanelore}%" to player
+        if arg-1 is "pospiechIII":
+            set {_usuwanelore} to "&5Pośpiech III"
+            remove {_usuwanelore} from lore of player's held item
+            send "&aPrzedmiot nie ma już enchantu %{_usuwanelore}%" to player
+        if arg-1 is "krwiopijcaI":
+            set {_usuwanelore} to "&5Krwiopijca I"
+            remove {_usuwanelore} from lore of player's held item
+            send "&aPrzedmiot nie ma już enchantu %{_usuwanelore}%" to player
+        if arg-1 is "KrwiopijcaII":
+            set {_usuwanelore} to "&5Krwiopijca II"
+            remove {_usuwanelore} from lore of player's held item
+            send "&aPrzedmiot nie ma już enchantu %{_usuwanelore}%" to player
+        if arg-1 is "KrwiopijcaIII":
+            set {_usuwanelore} to "&5Krwiopijca III"
+            remove {_usuwanelore} from lore of player's held item
+            send "&aPrzedmiot nie ma już enchantu %{_usuwanelore}%" to player
+        if arg-1 is "biegacz":
+            set {_usuwanelore} to "&5Biegacz"
+            remove {_usuwanelore} from lore of player's held item
+            send "&aPrzedmiot nie ma już enchantu %{_usuwanelore}%" to player
