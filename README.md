@@ -7,7 +7,9 @@ Prosty skrypt dodający wiadomość na czacie za każdym razem gdy ktoś wykopie
 Aktualnie największy skrypt w MklSkripts. Dodaje trzy nowe enchanty:
 
 **Pośpiech** - szansa na otrzymanie efektu "haste" przy kopaniu
+
 **Krwiopijca** - szansa na otrzymanie efektu "regeneration" przy ataku
+
 **Biegacz** - permanentny efekt "speed" gdy gracz ma założone buty
 
 Skrypt dodaje komendy _/pospiech_ _/krwiopijca_ _/biegacz_ konieczne do otrzymania enchantu, a także _/usunenchant_ - usuwanie enchantów z przedmiotu
