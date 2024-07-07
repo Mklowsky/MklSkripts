@@ -1,0 +1,232 @@
+#PunktyRespektu - customowy system Respektu stworzony przez Mkl na 4. edycję Braniewo SMP
+#GitHub: https://github.com/Mklowsky/MklSkripts
+
+#Domyślna ilość PR dla nowych graczy
+on join:
+    if {respekt::%player%} is not set:
+        set {respekt::%player%} to 100
+    if {poziompr::%player%} is not set:
+        set {respekt::%player%} to "wegiel"
+
+#Placeholdery 
+on papi request for prefix "respekt":
+    if the identifier is "gracza":
+        set {respekt} to {respekt::%player%}
+        set the result to "%{respekt}%"
+
+on papi request for prefix "czaszki":
+	if the identifier is "czaszka":
+		set {czaszka} to {tablist::czaszki::%player%}
+		set the result to "%{czaszka}%"
+		
+#Właściwa część skryptu
+#Dodawanie PR co określoną ilość czasu dla graczy default i VIP
+every 5 minutes:
+    loop all players:
+        if loop-player has permission "mklskripts.grupadef":
+            add 10 to {respekt::%loop-player%}
+            send "&aOtrzymałeś &e10 &aPunktów Respektu za bycie online!" to loop-player
+        else if loop-player has permission "mklskripts.grupavip":
+            add 20 to {respekt::%loop-player%}
+            send "&aOtrzymałeś &eBONUS 20 &aPunktów Respektu za bycie online! Dzięki za wsparcie serwera!" to loop-player
+
+#Czaszka i utrata PR za zabójstwo gracza
+on join:
+	if {tablist::czaszki::%player%} is not set:
+		set {tablist::czaszki::%player%} to ""
+
+on death:
+	if victim and attacker is a player:
+		if {skull::%victim%} is set:
+			clear {skull::%victim%}
+			add 50 to {respekt::%attacker%}
+			send subtitle "&aZabiłeś gracza z czaszką! &e+50 PR" to attacker
+			send "&aGracz &e%victim% &anie ma już czaszki" to all players
+			set {tablist::czaszki::%victim%} to ""
+		else:
+			set {skull::%attacker%} to true
+			remove 50 from {respekt::%attacker%}
+			send title "☠" with subtitle "&eZabiłeś pokojowego gracza! &c-50 PR" to attacker
+			send "&cGracz &e%attacker% &czabił pokojowego gracza. Za jego głowę otrzymacie nagrodę!" to all players
+			set {tablist::czaszki::%attacker%} to "☠"
+
+#Nagrody za kolejne poziomy PR
+every 3 seconds:
+    loop all players:
+        if {respekt::%loop-player%} <= -300: #Poziom Dirtu - poniżej 0 PR
+            set {poziompr::%loop-player%} to "dirt"
+            set {znizkakowadlo::%loop-player%} to false
+            remove regeneration from loop-player
+        if {respekt::%loop-player%} <= -1: #Poziom Cobblu - poniżej 0 PR
+            set {poziompr::%loop-player%} to "cobble"
+            set {znizkakowadlo::%loop-player%} to false
+            remove regeneration from loop-player
+        if {respekt::%loop-player%} >= 0: #Poziom Węglu - powyżej 0 PR
+            set {poziompr::%loop-player%} to "coal"
+            set {znizkakowadlo::%loop-player%} to false
+            remove regeneration from loop-player
+        if {respekt::%loop-player%} >= 300: #Poziom złota - powyżej 300 PR
+            set {poziompr::%loop-player%} to "gold"
+            set {znizkakowadlo::%loop-player%} to false
+            remove regeneration from loop-player
+        if {respekt::%loop-player%} >= 700: #Poziom Emeraldu - powyżej 700 PR
+            set {poziompr::%loop-player%} to "emerald"
+            set {znizkakowadlo::%loop-player%} to false
+            remove regeneration from loop-player
+        if {respekt::%loop-player%} >= 1100: #Poziom Diamentu - powyżej 1100 PR
+            set {poziompr::%loop-player%} to "diamond"
+            set {znizkakowadlo::%loop-player%} to false
+            remove regeneration from loop-player
+        if {respekt::%loop-player%} >= 1600: #Poziom Netherytu - powyżej 1600 PR
+            set {poziompr::%loop-player%} to "netherite"
+            set {znizkakowadlo::%loop-player%} to true
+            apply regeneration 1 to loop-player for 999 days
+            if {nagrodanetherite::%loop-player%} is not set: #Czy jednorazowa nagroda została już przekazana?
+                give loop-player elytra
+                set {nagrodanetherite::%loop-player%} to true
+            else:
+                stop
+
+#Specjalne zmiany systemów w grze ze względu na poziomy!
+on anvil prepare:
+    loop all players:
+        if {znizkakowadlo::%loop-player%} is true:
+            event-item is set # result item
+            chance of 100%:
+                set repair cost to repair cost * 50%
+
+#GUI do zdobywania nagród
+command /lvlpr [<text>]:
+	trigger:
+		set {_lvlpr} to chest inventory with 3 rows named "§e§lPUNKTY RESPEKTU"
+		set slot 10 of {_lvlpr} to dirt named "&c§lOD -300 PR"
+		set slot 11 of {_lvlpr} to cobblestone named "&c&lPONIŻEJ 0 PR"
+		set slot 12 of {_lvlpr} to coal named "§7&lOD 0 PR" with lore "§fBrak efektów!", "§f§oZdobywaj PR, aby zdobywać kolejne poziomy!"
+		set slot 13 of {_lvlpr} to gold ingot named "§e&lOD 300 PR" 
+		set slot 14 of {_lvlpr} to emerald named "§a&lOD 700 PR"
+		set slot 15 of {_lvlpr} to diamond named "§b&lOD 1100 PR"
+		set slot 16 of {_lvlpr} to netherite ingot named "&5&lOD 1600 PR" with lore "&b- Elytra", "&b- Permanentny efekt Regeneracji", "&b- Zniżka 50 procent na kowadło!"
+		open {_lvlpr} to player
+
+on inventory click:
+	event-inventory is not player's inventory
+	if name of event-inventory is "§e§lPUNKTY RESPEKTU":
+		cancel event
+
+#Komendy do czaszek
+command /dodajczaszke [<player>]:
+    description: Dodaje graczowi czaszkę
+    executable by: the console and players
+    permission: mklskripts.dodajczaszke
+    permission message: "§cNie masz uprawnień do użycia tej komendy!"
+    usage: /dodajczaszke <gracz>
+    trigger:
+        if arg 1 is not set:
+            send "§cMusisz podać gracza!" to player
+            stop
+        if {skull::%arg 1%} is set:
+            send "§cTen gracz ma już czaszkę!" to player
+        else:
+            set {skull::%arg 1%} to true
+            remove 50 from {respekt::%arg 1%}
+            send title "☠" with subtitle "&eMasz teraz czaszkę! &c-50 PR" to arg 1
+            send "&cGracz &e%arg 1% &cma teraz czaszkę! Za jego głowę otrzymacie nagrodę!" to all players
+            set {tablist::czaszki::%arg 1%} to "☠"
+
+command /usunczaszke [<player>]:
+    description: Usuwa graczowi czaszkę
+    executable by: the console and players
+    permission: mklskripts.usunczaszke
+    permission message: "§cNie masz uprawnień do użycia tej komendy!"
+    usage: /usunczaszke <gracz>
+    trigger:
+        if arg 1 is not set:
+            send "§cMusisz podać gracza!" to player
+            stop
+        if {skull::%arg 1%} is set:
+            clear {skull::%arg 1%}
+            send "&aGracz &e%arg 1% &anie ma już czaszki" to all players
+            set {tablist::czaszki::%arg 1%} to ""
+        else:
+            send "§cTen gracz nie ma czaszki!" to player
+			
+#Komendy do PR
+command /pr:
+    description: Wyświetla liczbę PR
+    executable by: players
+    usage: /pr
+    trigger:
+        if {respekt::%player%} >= 0:
+            send "§aMasz §e%{respekt::%player%}% §aPunktów Respektu! Oby tak dalej!" to player
+        else:
+            send "§cMasz §e%{respekt::%player%}% §cPunktów Respektu! Graj honorowo, a twoje PR staną się znowu dodatnie!" to player
+
+command /addpr [<player>] [<number>]:
+    description: Dodaje PR dla gracza
+    executable by: the console and players
+    permission: mklskripts.addpr
+    permission message: "§cNie masz uprawnień do użycia tej komendy!"
+    usage: /addpr <gracz> <ilość pr>
+    trigger:
+        if arg 1 is not set:
+            send "§cMusisz podać gracza!" to player
+            stop
+        if arg 2 is not set:
+            send "§cMusisz podać ilość PR!" to player
+            stop
+        if arg 2 is not a number:
+            send "§cIlość PR musi być liczbą!" to player
+            stop
+        add arg 2 to {respekt::%arg 1%}
+        send "§aDodano §e%arg 2% §aPunktów Respektu dla gracza §e%arg 1%§a." to player
+
+command /setpr [<player>] [<number>]:
+    description: Ustawia liczbę PR dla gracza
+    executable by: the console and players
+    permission: mklskripts.setpr
+    permission message: "§cNie masz uprawnień do użycia tej komendy!"
+    usage: /setpr <gracz> <ilość pr>
+    trigger:
+        if arg 1 is not set:
+            send "§cMusisz podać gracza!" to player
+            stop
+        if arg 2 is not set:
+            send "§cMusisz podać ilość PR!" to player
+            stop
+        if arg 2 is not a number:
+            send "§cIlość PR musi być liczbą!" to player
+            stop
+        set {respekt::%arg 1%} to arg 2
+        send "§aUstawiono §e%arg 2% §aPunktów Respektu dla gracza §e%arg 1%§a." to player
+
+command /removepr [<player>] [<number>]:
+    description: Usuwa PR dla gracza
+    executable by: the console and players
+    permission: mklskripts.removepr
+    permission message: "§cNie masz uprawnień do użycia tej komendy!"
+    usage: /addpr <gracz> <ilość pr>
+    trigger:
+        if arg 1 is not set:
+            send "§cMusisz podać gracza!" to player
+            stop
+        if arg 2 is not set:
+            send "§cMusisz podać ilość PR!" to player
+            stop
+        if arg 2 is not a number:
+            send "§cIlość PR musi być liczbą!" to player
+            stop
+        remove arg 2 from {respekt::%arg 1%}
+        send "§cUsunięto §e%arg 2% §cPunktów Respektu dla gracza §e%arg 1%§a." to player
+		
+command /toppr:
+    executable by: players
+    trigger:
+        send "§8§m                                   " to player			
+        send "§6§lSERWEROWE TOP PUNKTÓW RESPEKTU:" to player
+        send "§8§m                                   " to player
+        set {_top::*} to sorted indices of {respekt::*} in descending order
+        loop 15 times:
+            add {_top::%loop-value%} to {_top_15::*}
+        loop {_top_15::*}:
+            add 1 to {_n}
+            send "§d%{_n}%. &e%{_top_15::%{_n}%} parsed as offlineplayer% &7- &e%{respekt::%{_top_15::%{_n}%}%}% &7PR" to player

@@ -1,0 +1,27 @@
+function startAntiLogOut(p: player):
+    set {antiLogOut::%{_p}%} and {_var} to 20
+    loop 20 times:
+        {antiLogOut::%{_p}%} is not set:
+            stop
+        {antiLogOut::%{_p}%} > {_var}:
+            stop
+        send action bar "&cJesteś w walce jeszcze przez %{antiLogOut::%{_p}%}% sekund! Wychodząc z serwera stracisz PR." to {_p}    
+        remove 1 from {antiLogOut::%{_p}%} and {_var}
+        wait 1 second
+    clear {antiLogOut::%{_p}%}
+    send action bar "&aJuż nie jesteś podczas walki!" to {_p}
+
+on damage of player:
+    attacker is a player
+    startAntiLogOut(victim)
+    startAntiLogOut(attacker)
+    
+on quit:
+    {antiLogOut::%player%} is set
+    remove 300 from {respekt::%player%}
+    kill player
+    
+on command:
+    {antiLogOut::%player%} is set
+    cancel event
+    send "&cJesteś podczas walki!" to player

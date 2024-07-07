@@ -1,0 +1,2 @@
+on death of player:
+    drop victim's head named "&eGłowa gracza %victim%" at victim

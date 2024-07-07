@@ -1,7 +1,5 @@
 #MklEnchants - customowe enchanty stworzone przez Mkl na 4. edycję Braniewo SMP
-#Wersja Alpha 1.0
 #GitHub: https://github.com/Mklowsky/MklSkripts
-#Wymagane pluginy: EssentialsX
 
 #Sekcja Enchantów - zawiera wszystkie enchanty zapewniane przez skrypt
 #Aby aktywować enchant dodaj do itemlore nazwę zawartą poniżej
@@ -47,7 +45,7 @@ every 1 second:
 #Sekcja komend - nakładanie enchantów na przedmioty
 
 command /pospiech [<text>]:
-    permission: mklenchants.pospiech
+    permission: mklskripts.dodajpospiech
     executable by: players
     permission message: "&cNie masz uprawnień do użycia tej komendy!"
     trigger:
@@ -59,7 +57,7 @@ command /pospiech [<text>]:
             send "&cPoprawne użycie: /pospiech I/II/III"
 
 command /krwiopijca [<text>]:
-    permission: mklenchants.krwiopijca
+    permission: mklskripts.dodajkrwiopijca
     executable by: players
     permission message: "&cNie masz uprawnień do użycia tej komendy!"
     trigger:
@@ -71,7 +69,7 @@ command /krwiopijca [<text>]:
             send "&cPoprawne użycie: /krwiopijca I/II/III"
 			
 command /biegacz [<text>]:
-    permission: mklenchants.biegacz
+    permission: mklskripts.dodajbiegacz
     executable by: players
     permission message: "&cNie masz uprawnień do użycia tej komendy!"
     trigger:
@@ -82,7 +80,7 @@ command /biegacz [<text>]:
             send "&cBiegacz działa wyłącznie na butach!"
 
 command /usunenchant [<text>]: #komenda tymczasowa bedzie zmieniona pozniej - Mkl
-    permission: mklenchants.usunenchant
+    permission: mklskripts.usunenchant
     executable by: players
     permission message: "&cNie masz uprawnień do użycia tej komendy!"
     trigger:
