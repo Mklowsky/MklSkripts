@@ -6,7 +6,7 @@ on join:
     if {respekt::%player%} is not set:
         set {respekt::%player%} to 100
     if {poziompr::%player%} is not set:
-        set {respekt::%player%} to "wegiel"
+        set {poziompr::%player%} to "wegiel"
 
 #Placeholdery 
 on papi request for prefix "respekt":
@@ -30,82 +30,130 @@ every 5 minutes:
             add 20 to {respekt::%loop-player%}
             send "&aOtrzymałeś &eBONUS 20 &aPunktów Respektu za bycie online! Dzięki za wsparcie serwera!" to loop-player
 
-#Czaszka i utrata PR za zabójstwo gracza
+#System czaszek i nagród PR za nie
 on join:
 	if {tablist::czaszki::%player%} is not set:
 		set {tablist::czaszki::%player%} to ""
 
 on death:
 	if victim and attacker is a player:
+		# Ustal aktualny czas
+		set {_currentTime} to now
+		# Sprawdź, czy zapisany jest czas ostatniego zabójstwa danego gracza przez innego gracza
+		if {lastKillTime::%attacker%::%victim%} is set:
+			set {_lastKillTime} to {lastKillTime::%attacker%::%victim%}
+			if difference between {_currentTime} and {_lastKillTime} is less than 20 minutes:
+				set {_canReceivePR} to false
+			else:
+				set {_canReceivePR} to true
+		else:
+			set {_canReceivePR} to true
+
 		if {skull::%victim%} is set:
 			clear {skull::%victim%}
-			add 50 to {respekt::%attacker%}
-			send subtitle "&aZabiłeś gracza z czaszką! &e+50 PR" to attacker
-			send "&aGracz &e%victim% &anie ma już czaszki" to all players
+			if {_canReceivePR} is true:
+				add 50 to {respekt::%attacker%}
+				send "&aZabiłeś gracza z czaszką! &e+50 PR" to attacker
+				set {lastKillTime::%attacker%::%victim%} to {_currentTime}
+			if {_canReceivePR} is false:
+				send "&cMusisz zaczekać 20 minut aby móc otrzymać PR za tego samego gracza!" to attacker
+			send "&aGracz &e%victim% &anie ma już czaszki" to all players and console
 			set {tablist::czaszki::%victim%} to ""
 		else:
 			set {skull::%attacker%} to true
 			remove 50 from {respekt::%attacker%}
 			send title "☠" with subtitle "&eZabiłeś pokojowego gracza! &c-50 PR" to attacker
-			send "&cGracz &e%attacker% &czabił pokojowego gracza. Za jego głowę otrzymacie nagrodę!" to all players
+			send "&cGracz &e%attacker% &czabił pokojowego gracza. Za jego głowę otrzymacie nagrodę!" to all players and console
 			set {tablist::czaszki::%attacker%} to "☠"
 
-#Nagrody za kolejne poziomy PR
+
+#Zmiany poziomów PR i ich konsekwencje
 every 3 seconds:
     loop all players:
-        if {respekt::%loop-player%} <= -300: #Poziom Dirtu - poniżej 0 PR
-            set {poziompr::%loop-player%} to "dirt"
-            set {znizkakowadlo::%loop-player%} to false
-            remove regeneration from loop-player
-        if {respekt::%loop-player%} <= -1: #Poziom Cobblu - poniżej 0 PR
-            set {poziompr::%loop-player%} to "cobble"
-            set {znizkakowadlo::%loop-player%} to false
-            remove regeneration from loop-player
-        if {respekt::%loop-player%} >= 0: #Poziom Węglu - powyżej 0 PR
-            set {poziompr::%loop-player%} to "coal"
-            set {znizkakowadlo::%loop-player%} to false
-            remove regeneration from loop-player
-        if {respekt::%loop-player%} >= 300: #Poziom złota - powyżej 300 PR
-            set {poziompr::%loop-player%} to "gold"
-            set {znizkakowadlo::%loop-player%} to false
-            remove regeneration from loop-player
-        if {respekt::%loop-player%} >= 700: #Poziom Emeraldu - powyżej 700 PR
-            set {poziompr::%loop-player%} to "emerald"
-            set {znizkakowadlo::%loop-player%} to false
-            remove regeneration from loop-player
-        if {respekt::%loop-player%} >= 1100: #Poziom Diamentu - powyżej 1100 PR
-            set {poziompr::%loop-player%} to "diamond"
-            set {znizkakowadlo::%loop-player%} to false
-            remove regeneration from loop-player
-        if {respekt::%loop-player%} >= 1600: #Poziom Netherytu - powyżej 1600 PR
-            set {poziompr::%loop-player%} to "netherite"
-            set {znizkakowadlo::%loop-player%} to true
+        if {respekt::%loop-player%} >= 1600: # Poziom Netherytu - powyżej 1600 PR
+            set {poziompr::%loop-player%} to "&5Netherite"
             apply regeneration 1 to loop-player for 999 days
-            if {nagrodanetherite::%loop-player%} is not set: #Czy jednorazowa nagroda została już przekazana?
+            if {nagrodanetherite::%loop-player%} is not set: # Czy jednorazowa nagroda została już przekazana?
                 give loop-player elytra
                 set {nagrodanetherite::%loop-player%} to true
             else:
                 stop
+        else if {respekt::%loop-player%} >= 1100: # Poziom Diamentu - powyżej 1100 PR
+            set {poziompr::%loop-player%} to "§bDiament"
+            remove regeneration from loop-player
+        else if {respekt::%loop-player%} >= 700: # Poziom Emeraldu - powyżej 700 PR
+            set {poziompr::%loop-player%} to "§aEmerald"
+            remove regeneration from loop-player
+        else if {respekt::%loop-player%} >= 300: # Poziom złota - powyżej 300 PR
+            set {poziompr::%loop-player%} to "§eZłoto"
+            remove regeneration from loop-player
+        else if {respekt::%loop-player%} >= 0: # Poziom Węglu - powyżej 0 PR
+            set {poziompr::%loop-player%} to "§fWęgiel"
+            remove regeneration from loop-player
+        else if {respekt::%loop-player%} is between -1 and -299: # Poziom Cobblu - poniżej 0 PR
+            set {poziompr::%loop-player%} to "&cCobble"
+            remove regeneration from loop-player
+            chance of 1%:
+                spawn 2 zombies at loop-player
+                spawn 1 spider at loop-player
+                spawn 1 skeleton at loop-player
+                send "Atakuje cię &bHorda Mobów!" to loop-player
+        else if {respekt::%loop-player%} <= -300: # Poziom Dirtu - poniżej 0 PR
+            set {poziompr::%loop-player%} to "&cDirt"
+            remove regeneration from loop-player
+            chance of 1%:
+                spawn 2 zombies at loop-player
+                spawn 2 spiders at loop-player
+                spawn 1 skeleton at loop-player
+                spawn 1 creeper at loop-player
+                send "Atakuje cię &5Ulepszona Horda Mobów!" to loop-player
+            if {skull::%loop-player%} is not set:
+                set {skull::%loop-player%} to true
+                send title "☠" with subtitle "&cMasz mniej niż -300 PR!" to loop-player
+                send "&cGracz &e%loop-player% &cma mniej niż -300 PR. Za jego głowę otrzymacie nagrodę!" to all players and console
+                set {tablist::czaszki::%loop-player%} to "☠"
+            else:
+                stop
 
 #Specjalne zmiany systemów w grze ze względu na poziomy!
+#Zniżka na koadło
 on anvil prepare:
     loop all players:
-        if {znizkakowadlo::%loop-player%} is true:
+        if {poziompr::%loop-player%} is "&5Netherite":
             event-item is set # result item
             chance of 100%:
-                set repair cost to repair cost * 50%
+                set repair cost to repair cost * 60%
 
+#Bonusowe XP
+on break of ore:
+    if {poziompr::%player%} is "&5Netherite":
+        add 4 to dropped experience
+    if {poziompr::%player%} is "§bDiament":
+        add 3 to dropped experience
+    if {poziompr::%player%} is "§aEmerald":
+        add 2 to dropped experience
+    if {poziompr::%player%} is "§eZłoto":
+        add 1 to dropped experience
+    else:
+        stop
+on death of a zombie or spider or skeleton or creeper or enderman:
+    if {poziompr::%attacker%} is "&5Netherite":
+        give 3 xp to the attacker
+    if {poziompr::%attacker%} is "§bDiament":
+        give 2 xp to the attacker
+    if {poziompr::%attacker%} is "§aEmerald":
+        give 1 xp to the attacker
 #GUI do zdobywania nagród
 command /lvlpr [<text>]:
 	trigger:
 		set {_lvlpr} to chest inventory with 3 rows named "§e§lPUNKTY RESPEKTU"
-		set slot 10 of {_lvlpr} to dirt named "&c§lOD -300 PR"
-		set slot 11 of {_lvlpr} to cobblestone named "&c&lPONIŻEJ 0 PR"
-		set slot 12 of {_lvlpr} to coal named "§7&lOD 0 PR" with lore "§fBrak efektów!", "§f§oZdobywaj PR, aby zdobywać kolejne poziomy!"
-		set slot 13 of {_lvlpr} to gold ingot named "§e&lOD 300 PR" 
-		set slot 14 of {_lvlpr} to emerald named "§a&lOD 700 PR"
-		set slot 15 of {_lvlpr} to diamond named "§b&lOD 1100 PR"
-		set slot 16 of {_lvlpr} to netherite ingot named "&5&lOD 1600 PR" with lore "&b- Elytra", "&b- Permanentny efekt Regeneracji", "&b- Zniżka 50 procent na kowadło!"
+		set slot 10 of {_lvlpr} to dirt named "&c§lOD -300 PR" with lore "&f- &cZawsze masz &f☠", "&f- &cMoże zaatakować cię &5Ulepszona Horda Mobów"
+		set slot 11 of {_lvlpr} to cobblestone named "&c&lPONIŻEJ 0 PR" with lore "&f- &cMoże zaatakować cię &bHorda Mobów"
+		set slot 12 of {_lvlpr} to coal named "§7&lOD 0 PR" with lore "§fBrak efektów!"
+		set slot 13 of {_lvlpr} to gold ingot named "§e&lOD 300 PR" with lore "&f- Niewielki &abonusowy XP &fza wykopywanie rud"
+		set slot 14 of {_lvlpr} to emerald named "§a&lOD 700 PR" with lore "&f- Mały &abonusowy XP &fza wykopywanie rud", "&f- Mały &abonusowy XP &fza zabijanie mobów"
+		set slot 15 of {_lvlpr} to diamond named "§b&lOD 1100 PR" with lore "&f- Średni &abonusowy XP &fza wykopywanie rud", "&f- Średni &abonusowy XP &fza zabijanie mobów"
+		set slot 16 of {_lvlpr} to netherite ingot named "&5&lOD 1600 PR" with lore "&f- &5Elytra", "&f- Permanentny efekt &cRegeneracji", "&f- &bZniżka 40 procent na kowadło", "&f- Duży &abonusowy XP &fza wykopywanie rud", "&f- Duży &abonusowy XP &fza zabijanie mobów"
 		open {_lvlpr} to player
 
 on inventory click:
@@ -130,7 +178,7 @@ command /dodajczaszke [<player>]:
             set {skull::%arg 1%} to true
             remove 50 from {respekt::%arg 1%}
             send title "☠" with subtitle "&eMasz teraz czaszkę! &c-50 PR" to arg 1
-            send "&cGracz &e%arg 1% &cma teraz czaszkę! Za jego głowę otrzymacie nagrodę!" to all players
+            send "&cGracz &e%arg 1% &cma teraz czaszkę! Za jego głowę otrzymacie nagrodę!" to all players and console
             set {tablist::czaszki::%arg 1%} to "☠"
 
 command /usunczaszke [<player>]:
@@ -145,7 +193,7 @@ command /usunczaszke [<player>]:
             stop
         if {skull::%arg 1%} is set:
             clear {skull::%arg 1%}
-            send "&aGracz &e%arg 1% &anie ma już czaszki" to all players
+            send "&aGracz &e%arg 1% &anie ma już czaszki" to all players and console
             set {tablist::czaszki::%arg 1%} to ""
         else:
             send "§cTen gracz nie ma czaszki!" to player
@@ -158,8 +206,10 @@ command /pr:
     trigger:
         if {respekt::%player%} >= 0:
             send "§aMasz §e%{respekt::%player%}% §aPunktów Respektu! Oby tak dalej!" to player
+            send "§fTwój aktualny §epoziom PR §fto %{poziompr::%player%}%"
         else:
             send "§cMasz §e%{respekt::%player%}% §cPunktów Respektu! Graj honorowo, a twoje PR staną się znowu dodatnie!" to player
+            send "§fTwój aktualny §epoziom PR §fto %{poziompr::%player%}%"
 
 command /addpr [<player>] [<number>]:
     description: Dodaje PR dla gracza
@@ -230,3 +280,13 @@ command /toppr:
         loop {_top_15::*}:
             add 1 to {_n}
             send "§d%{_n}%. &e%{_top_15::%{_n}%} parsed as offlineplayer% &7- &e%{respekt::%{_top_15::%{_n}%}%}% &7PR" to player
+
+command /sprawdzpr [<player>]:
+    description: Sprawdza PR danego gracza
+    executable by: the console and players
+    usage: /sprawdzpr <gracz>
+    trigger:
+        if arg 1 is not set:
+            send "§cMusisz podać gracza!" to player
+            stop
+        send "§fGracz §e%arg 1% §fma §e%{respekt::%arg 1%}% Punktów Respektu! §aPoziom §f: %{poziompr::%arg 1%}%" to player
