@@ -6,7 +6,7 @@ on join:
     if {respekt::%player%} is not set:
         set {respekt::%player%} to 100
     if {poziompr::%player%} is not set:
-        set {poziompr::%player%} to "wegiel"
+        set {poziompr::%player%} to "§fWęgiel"
 
 #Placeholdery 
 on papi request for prefix "respekt":
@@ -74,7 +74,9 @@ every 3 seconds:
             set {poziompr::%loop-player%} to "&5Netherite"
             apply regeneration 1 to loop-player for 999 days
             if {nagrodanetherite::%loop-player%} is not set: # Czy jednorazowa nagroda została już przekazana?
-                give loop-player elytra
+                set {_guinagrodanetherite} to chest inventory with 3 rows named "§5§lNAGRODA POZIOMU NETHERITE"
+                set slot 13 of {_guinagrodanetherite} to elytra
+                open {_guinagrodanetherite} to loop-player
                 set {nagrodanetherite::%loop-player%} to true
             else:
                 stop
@@ -147,13 +149,13 @@ on death of a zombie or spider or skeleton or creeper or enderman:
 command /lvlpr [<text>]:
 	trigger:
 		set {_lvlpr} to chest inventory with 3 rows named "§e§lPUNKTY RESPEKTU"
-		set slot 10 of {_lvlpr} to dirt named "&c§lOD -300 PR" with lore "&f- &cZawsze masz &f☠", "&f- &cMoże zaatakować cię &5Ulepszona Horda Mobów"
-		set slot 11 of {_lvlpr} to cobblestone named "&c&lPONIŻEJ 0 PR" with lore "&f- &cMoże zaatakować cię &bHorda Mobów"
+		set slot 10 of {_lvlpr} to dirt named "&c§lOD -300 PR" with lore "&f- &cZawsze masz &f☠", "&f- &cMoże zaatakować cię &5Ulepszona Horda Mobów", "&f- &cNie możesz odbierać dziennych nagród"
+		set slot 11 of {_lvlpr} to cobblestone named "&c&lPONIŻEJ 0 PR" with lore "&f- &cMoże zaatakować cię &bHorda Mobów", "&f- &cSłabsza pula dziennych nagród"
 		set slot 12 of {_lvlpr} to coal named "§7&lOD 0 PR" with lore "§fBrak efektów!"
 		set slot 13 of {_lvlpr} to gold ingot named "§e&lOD 300 PR" with lore "&f- Niewielki &abonusowy XP &fza wykopywanie rud"
-		set slot 14 of {_lvlpr} to emerald named "§a&lOD 700 PR" with lore "&f- Mały &abonusowy XP &fza wykopywanie rud", "&f- Mały &abonusowy XP &fza zabijanie mobów"
-		set slot 15 of {_lvlpr} to diamond named "§b&lOD 1100 PR" with lore "&f- Średni &abonusowy XP &fza wykopywanie rud", "&f- Średni &abonusowy XP &fza zabijanie mobów"
-		set slot 16 of {_lvlpr} to netherite ingot named "&5&lOD 1600 PR" with lore "&f- &5Elytra", "&f- Permanentny efekt &cRegeneracji", "&f- &bZniżka 40 procent na kowadło", "&f- Duży &abonusowy XP &fza wykopywanie rud", "&f- Duży &abonusowy XP &fza zabijanie mobów"
+		set slot 14 of {_lvlpr} to emerald named "§a&lOD 700 PR" with lore "&f- Mały &abonusowy XP &fza wykopywanie rud", "&f- Mały &abonusowy XP &fza zabijanie mobów", "&f- Wzmocniona pula &edziennych nagród"
+		set slot 15 of {_lvlpr} to diamond named "§b&lOD 1100 PR" with lore "&f- Średni &abonusowy XP &fza wykopywanie rud", "&f- Średni &abonusowy XP &fza zabijanie mobów", "&f- Lepsza pula &edziennych nagród"
+		set slot 16 of {_lvlpr} to netherite ingot named "&5&lOD 1600 PR" with lore "&f- &5Elytra", "&f- Permanentny efekt &cRegeneracji", "&f- &bZniżka 40 procent na kowadło", "&f- Duży &abonusowy XP &fza wykopywanie rud", "&f- Duży &abonusowy XP &fza zabijanie mobów", "&f- Ulepszona pula &edziennych nagród"
 		open {_lvlpr} to player
 
 on inventory click:
