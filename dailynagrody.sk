@@ -1,0 +1,749 @@
+#System dziennych nagród stworzony na 4. edycję Braniewo SMP
+#GitHub:https://github.com/Mklowsky/MklSkripts
+#Made by Mkl
+
+#Komenda /daily
+#4 poziomy nagród
+command /daily:
+    description: Komenda do odbierania losowania daily!
+    executable by: players
+    permission: mklskripts.daily
+    permission message: §cNie masz uprawnień do tej komendy!
+    trigger:
+        if {poziompr::%player%} is "&cDirt":
+            send "&cNie możesz odbierać dziennych nagród, ponieważ twój poziom PR jest zbyt niski!"
+            stop
+        if {poziompr::%player%} is "&cCobble": #Szanse na wylosowanie: 60% - Zwykła, 27% - Wzmocniona, 10% - Ulepszona, 3% - Jackpot
+            if {lastUse::daily::%player%} is not set:
+                chance of 30%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 30%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 5%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 5%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 3%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            if difference between {lastUse::daily::%player%} and now > 12 hours: 
+                chance of 30%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 30%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 5%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 5%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 3%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            else:
+                set {_remaining} to 12 hours - difference between {lastUse::daily::%player%} and now
+                send "&cMożesz odebrać swoje nagrody daily za &e%{_remaining}%!" 
+					
+        if {poziompr::%player%} is "&aEmerald": #Szanse na wylosowanie: 42% - Zwykła, 32% - Wzmocniona, 20% - Ulepszona, 6% - Jackpot
+            if {lastUse::daily::%player%} is not set:
+                chance of 21%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 21%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 6%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            if difference between {lastUse::daily::%player%} and now > 12 hours: 
+                chance of 21%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 21%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 6%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+        if {poziompr::%player%} is "&bDiament":#Szanse na wylosowanie: 40% - Zwykła, 30% - Wzmocniona, 23% - Ulepszona, 7% - Jackpot
+            if {lastUse::daily::%player%} is not set:
+                chance of 20%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 20%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 12%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 7%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            if difference between {lastUse::daily::%player%} and now > 12 hours: 
+                chance of 20%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 20%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 12%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 7%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+        if {poziompr::%player%} is "&5Netherite":#Szanse na wylosowanie: 38% - Zwykła, 30% - Wzmocniona, 24% - Ulepszona, 8% - Jackpot
+            if {lastUse::daily::%player%} is not set:
+                chance of 19%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 19%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 12%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 12%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 8%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            if difference between {lastUse::daily::%player%} and now > 12 hours: 
+                chance of 19%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 19%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 10%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 12%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 12%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 8%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            else:
+                set {_remaining} to 12 hours - difference between {lastUse::daily::%player%} and now
+                send "&cMożesz odebrać swoje nagrody daily za &e%{_remaining}%!"
+				
+        else: #Szanse na wylosowanie: 44% - Zwykła, 33% - Wzmocniona, 18% - Ulepszona, 5% - Jackpot
+            if {lastUse::daily::%player%} is not set:
+                chance of 22%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 22%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 5%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            if difference between {lastUse::daily::%player%} and now > 12 hours: 
+                chance of 22%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 4 gold ingot
+                    set slot 13 of {_guidaily} to 16 coal
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                chance of 22%:
+                    set {_guidaily} to chest inventory with 3 rows named "§7§lZWYKŁA NAGRODA DAILY"
+                    set slot 12 of {_guidaily} to 20 coal
+                    set slot 13 of {_guidaily} to 2 gold ingot
+                    set slot 14 of {_guidaily} to 5 iron ingot
+                    set slot 15 of {_guidaily} to 14 cooked chicken
+                    open {_guidaily} to player
+                set {lastUse::daily::%player%} to now
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 1 name tag
+                    set slot 13 of {_guidaily} to 1 lead
+                    set slot 14 of {_guidaily} to 20 iron ingot
+                    set slot 15 of {_guidaily} to 21 cooked chicken
+                    open {_guidaily} to player
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 12 of {_guidaily} to 2 golden carrot
+                    set slot 13 of {_guidaily} to 1 shield
+                    set slot 14 of {_guidaily} to 5 wind charges
+                    set slot 15 of {_guidaily} to 6 tnt
+                chance of 11%:
+                    set {_guidaily} to chest inventory with 3 rows named "§a§lWZMOCNIONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 20 iron ingot
+                    set slot 13 of {_guidaily} to 20 wind charges 
+                    set slot 14 of {_guidaily} to 12 ender pearls
+                    set slot 11 of {_guidaily} to 5 diamond
+                    open {_guidaily} to player
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 1 shulker box
+                    set slot 12 of {_guidaily} to 1 recovery compass
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond pickaxe of unbreaking 4 and efficiency 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 9%:
+                    set {_guidaily} to chest inventory with 3 rows named "§b§lULEPSZONA NAGRODA DAILY"
+                    set slot 11 of {_guidaily} to 8 golden apple
+                    set slot 12 of {_guidaily} to 12 experience bottle
+                    set slot 13 of {_guidaily} to 1 axolotl bucket
+                    set slot 14 of {_guidaily} to 1 diamond sword of unbreaking 4 and sharpness 3 with lore "&bUlepszona Nagroda"
+                    set slot 15 of {_guidaily} to 20 diamond
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §b§lulepszoną nagrodę daily!" to all players and the console 
+                chance of 5%:
+                    set {_guidaily} to chest inventory with 3 rows named "§5§lJACKPOT DAILY"
+                    set slot 12 of {_guidaily} to 1 diamond 
+                    set slot 13 of {_guidaily} to 1 mace with lore "&5Nagroda Jackpot"
+                    set slot 14 of {_guidaily} to 1 diamond 
+                    open {_guidaily} to player
+                    send "&e%player% &fwylosował §5§lJACKPOT DAILY!" to all players and the console 
+                set {lastUse::daily::%player%} to now
+            else:
+                set {_remaining} to 12 hours - difference between {lastUse::daily::%player%} and now
+                send "&cMożesz odebrać swoje nagrody daily za &e%{_remaining}%!" 
+	
+#Komenda /dailyvip 
+#4 poziomy nagród
+command /dailyvip:
+    description: Komenda do odbierania losowania daily dla VIP-ów!
+    executable by: players
+    permission: mklskripts.dailyvip
+    permission message: §cZakup Wspierającego aby otrzymywać daily dla VIP-ów!
+    trigger:
+        if {lastUse::vip::%player%} is not set:
+            chance of 5%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {__guidailyvip_guidailyvip} to diamond boots with lore "&5Biegacz"
+                open {_guidailyvip} to player
+            chance of 5%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {__guidailyvip_guidailyvip} to 1 netherite ingot
+                open {_guidailyvip_guidailyvip} to player
+            chance of 25%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to 16 diamonds 
+                open {_guidailyvip} to player
+            chance of 25%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to 32 diamonds
+                open {_guidailyvip} to player
+            chance of 20%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to diamond sword with lore "&5Krwiopijca III"
+                open {_guidailyvip} to player
+            chance of 20%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to diamond pickaxe with lore "&5Pośpiech III"
+                open {_guidailyvip} to player
+            set {lastUse::vip::%player%} to now
+        if difference between {lastUse::vip::%player%} and now > 12 hours: 
+            chance of 5%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {__guidailyvip_guidailyvip} to diamond boots with lore "&5Biegacz"
+                open {_guidailyvip} to player
+            chance of 5%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {__guidailyvip_guidailyvip} to 1 netherite ingot
+                open {_guidailyvip_guidailyvip} to player
+            chance of 25%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to 16 diamonds 
+                open {_guidailyvip} to player
+            chance of 25%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to 32 diamonds
+                open {_guidailyvip} to player
+            chance of 20%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to diamond sword with lore "&5Krwiopijca III"
+                open {_guidailyvip} to player
+            chance of 20%:
+                set {_guidailyvip} to chest inventory with 3 rows named "§e§lNAGRODA DAILY VIP"
+                set slot 13 of {_guidailyvip} to diamond pickaxe with lore "&5Pośpiech III"
+                open {_guidailyvip} to player
+            set {lastUse::vip::%player%} to now        
+        else:
+            set {_remaining} to 12 hours - difference between {lastUse::vip::%player%} and now
+            send "&cMożesz odebrać swoje nagrody daily VIP za &e%{_remaining}%!"
+				
+# Komenda do resetowania cooldownu
+command /resetdaily <player>:
+    description: Resetuje cooldown daily
+    executable by: the console and players
+    permission: mklskripts.resetdaily
+    permission message: §cNie masz uprawnień do użycia tej komendy!
+    trigger:
+        wait 1 tick
+        delete {lastUse::daily::%arg-1%}
+        wait 1 tick
+        delete {lastUse::vip::%arg-1%}
+        send "&aCooldown na odbiór nagród dla gracza &e%arg-1% &azostał zresetowany!" to player and the console
+        send "&aTwój cooldown na odbiór nagród został zresetowany!" to arg-1
