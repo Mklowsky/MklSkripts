@@ -9,7 +9,8 @@ Skrypt, który sprawia, że w trakcie PvP gracze przez 20 sekund nie mogą używ
 Prosty skrypt dodający wiadomość na czacie za każdym razem gdy ktoś wykopie diamenty. Dla jednego gracza cooldown wynosi 15 sekund, w celu uniknięcia spamu.
 - ### _glowagracza.sk_
 Bardzo prosty, lekki skrypt, który sprawia, że po zabójstwie gracza na miejscu jego śmierci pojawi się jego nazwana główka.
-
+- ### _dailynagrody.sk_
+Codzienne nagrody losowane z danej puli!
 ## Wszystkie wartości używane w skryptach są w pełni customizowalne!
 
 Zapraszam na serwer [Discord Braniewo SMP](https://discord.com/invite/Y45Cw8wH9q), gdzie mogę udzielić wsparcia co do skryptów!
