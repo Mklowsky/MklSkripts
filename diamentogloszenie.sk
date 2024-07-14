@@ -1,4 +1,7 @@
 on break of diamond ore or deepslate diamond ore:
+    if {placedBlockOreDiamond::%location of event-block%} is set:
+        delete {placedBlockOreDiamond::%location of event-block%} # Usuwa flagę po wykopaniu bloku
+        stop
     if {diamondCooldown::%player%} is not set:
         broadcast "&e%player% znalazł diamenty!"
         set {diamondCooldown::%player%} to now

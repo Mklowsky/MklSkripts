@@ -1,0 +1,7 @@
+#Skrypt blokujący niektóre mechaniki innych skryptów w celu zablokowania ich abusowania
+#NIE ZMIENIAJ NIC W TYM SKRYPCIE!
+
+on place of ore:
+    set {placedBlockOre::%location of event-block%} to true
+on place of diamond ore or deepslate diamond ore:
+    set {placedBlockOreDiamond::%location of event-block%} to true

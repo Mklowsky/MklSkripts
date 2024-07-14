@@ -86,7 +86,7 @@ every 3 seconds:
         else if {respekt::%loop-player%} >= 700: # Poziom Emeraldu - powyżej 700 PR
             set {poziompr::%loop-player%} to "§aEmerald"
             remove regeneration from loop-player
-        else if {respekt::%loop-player%} >= 300: # Poziom złota - powyżej 300 PR
+        else if {respekt::%loop-player%} >= 300: # Poziom Złota - powyżej 300 PR
             set {poziompr::%loop-player%} to "§eZłoto"
             remove regeneration from loop-player
         else if {respekt::%loop-player%} >= 0: # Poziom Węglu - powyżej 0 PR
@@ -100,7 +100,7 @@ every 3 seconds:
                 spawn 1 spider at loop-player
                 spawn 1 skeleton at loop-player
                 send "Atakuje cię &bHorda Mobów!" to loop-player
-        else if {respekt::%loop-player%} <= -300: # Poziom Dirtu - poniżej 0 PR
+        else if {respekt::%loop-player%} <= -300: # Poziom Dirtu - poniżej -300 PR
             set {poziompr::%loop-player%} to "&cDirt"
             remove regeneration from loop-player
             chance of 1%:
@@ -125,16 +125,20 @@ on anvil prepare:
             event-item is set # result item
             chance of 100%:
                 set repair cost to repair cost * 60%
-
+        if {poziompr::%loop-player%} is "&5Diament":
+            event-item is set # result item
+            chance of 100%:
+                set repair cost to repair cost * 80%
 #Bonusowe XP
 on break of ore:
+    if {placedBlockOre::%location of event-block%} is set:
+        delete {placedBlockOre::%location of event-block%} # Usuwa flagę po wykopaniu bloku
+        stop
     if {poziompr::%player%} is "&5Netherite":
-        add 4 to dropped experience
-    if {poziompr::%player%} is "§bDiament":
         add 3 to dropped experience
-    if {poziompr::%player%} is "§aEmerald":
+    if {poziompr::%player%} is "§bDiament":
         add 2 to dropped experience
-    if {poziompr::%player%} is "§eZłoto":
+    if {poziompr::%player%} is "§aEmerald":
         add 1 to dropped experience
     else:
         stop
@@ -145,6 +149,9 @@ on death of a zombie or spider or skeleton or creeper or enderman:
         give 2 xp to the attacker
     if {poziompr::%attacker%} is "§aEmerald":
         give 1 xp to the attacker
+    if {poziompr::%attacker%} is "§eZłoto":
+        give 1 xp to the attacker
+
 #GUI do zdobywania nagród
 command /lvlpr [<text>]:
 	trigger:
@@ -152,9 +159,9 @@ command /lvlpr [<text>]:
 		set slot 10 of {_lvlpr} to dirt named "&c§lOD -300 PR" with lore "&f- &cZawsze masz &f☠", "&f- &cMoże zaatakować cię &5Ulepszona Horda Mobów", "&f- &cNie możesz odbierać dziennych nagród"
 		set slot 11 of {_lvlpr} to cobblestone named "&c&lPONIŻEJ 0 PR" with lore "&f- &cMoże zaatakować cię &bHorda Mobów", "&f- &cSłabsza pula dziennych nagród"
 		set slot 12 of {_lvlpr} to coal named "§7&lOD 0 PR" with lore "§fBrak efektów!"
-		set slot 13 of {_lvlpr} to gold ingot named "§e&lOD 300 PR" with lore "&f- Niewielki &abonusowy XP &fza wykopywanie rud"
+		set slot 13 of {_lvlpr} to gold ingot named "§e&lOD 300 PR" with lore "&f- Mały &abonusowy XP &fza zabijanie mobów"
 		set slot 14 of {_lvlpr} to emerald named "§a&lOD 700 PR" with lore "&f- Mały &abonusowy XP &fza wykopywanie rud", "&f- Mały &abonusowy XP &fza zabijanie mobów", "&f- Wzmocniona pula &edziennych nagród"
-		set slot 15 of {_lvlpr} to diamond named "§b&lOD 1100 PR" with lore "&f- Średni &abonusowy XP &fza wykopywanie rud", "&f- Średni &abonusowy XP &fza zabijanie mobów", "&f- Lepsza pula &edziennych nagród"
+		set slot 15 of {_lvlpr} to diamond named "§b&lOD 1100 PR" with lore "&f- &bZniżka 20 procent na kowadło", "&f- Średni &abonusowy XP &fza wykopywanie rud", "&f- Średni &abonusowy XP &fza zabijanie mobów", "&f- Lepsza pula &edziennych nagród"
 		set slot 16 of {_lvlpr} to netherite ingot named "&5&lOD 1600 PR" with lore "&f- &5Elytra", "&f- Permanentny efekt &cRegeneracji", "&f- &bZniżka 40 procent na kowadło", "&f- Duży &abonusowy XP &fza wykopywanie rud", "&f- Duży &abonusowy XP &fza zabijanie mobów", "&f- Ulepszona pula &edziennych nagród"
 		open {_lvlpr} to player
 
